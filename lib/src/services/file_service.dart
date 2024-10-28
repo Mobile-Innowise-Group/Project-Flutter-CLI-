@@ -124,7 +124,6 @@ class FileService {
     required String yamlFilePath,
     required List<String> features,
   }) async {
-    final String sep = Platform.pathSeparator;
     final File file = File(yamlFilePath);
 
     final List<String> lines = await file.readAsLines();
@@ -133,7 +132,7 @@ class FileService {
         .expand(
           (String feature) => <String>[
             '  $feature:',
-            '    path: ..$sep${AppConstants.kFeatures}$sep$feature',
+            '    path: ../${AppConstants.kFeatures}/$feature',
           ],
         )
         .toList();
@@ -164,14 +163,13 @@ class FileService {
     required String appRouterFilePath,
     required List<String> features,
   }) async {
-    final String sep = Platform.pathSeparator;
     final File file = File(appRouterFilePath);
 
     final List<String> lines = await file.readAsLines();
 
     final List<String> imports = <String>[
       ...lines.where((String line) => line.contains("import 'package:")),
-      ...features.map((String feature) => "import 'package:$feature$sep$feature.dart';"),
+      ...features.map((String feature) => "import 'package:$feature/$feature.dart';"),
     ];
 
     imports.sort();
@@ -206,14 +204,13 @@ class FileService {
     required String libraryFilePath,
     required List<String> features,
   }) async {
-    final String sep = Platform.pathSeparator;
     final File file = File(libraryFilePath);
 
     final List<String> lines = await file.readAsLines();
 
     final List<String> exports = <String>[
       ...lines.where((String line) => line.contains("export 'package:")),
-      ...features.map((String feature) => "export 'package:$feature$sep$feature.dart';"),
+      ...features.map((String feature) => "export 'package:$feature/$feature.dart';"),
     ];
 
     final int exportsIndex = lines.indexWhere((String line) => line.contains("export 'package:"));

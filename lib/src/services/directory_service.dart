@@ -154,11 +154,9 @@ class DirectoryService {
     required String featurePackagePath,
     required String featureName,
   }) async {
-    final String sep = Platform.pathSeparator;
-
-    final String libPath = '$featurePackagePath${sep}lib';
-    final String srcPath = '$libPath${sep}src';
-    final String modulePath = '$libPath$sep$featureName.dart';
+    final String libPath = '$featurePackagePath/lib';
+    final String srcPath = '$libPath/src';
+    final String modulePath = '$libPath/$featureName.dart';
 
     await Directory(srcPath).create(recursive: true);
     await File(modulePath).create();
